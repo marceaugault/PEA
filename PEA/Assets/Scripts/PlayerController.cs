@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-	[SerializeField]
-	float speed = 5f;
+	[SerializeField] float MaxLife = 100;
+	public float Life { get; private set; }
+
+	[SerializeField] float speed = 5f;
+
+	[SerializeField] float InvicibilityTimerAfterDamaged = 0.5f;
+	float currentInvicibilityTimer = 0f;
 
 	new Rigidbody rigidbody = null;
 
@@ -23,6 +28,8 @@ public class PlayerController : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
+		Life = MaxLife;
+
 		rigidbody = GetComponent<Rigidbody>();
 		bulletController = FindObjectOfType<BulletPool>();
 
@@ -33,6 +40,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		currentInvicibilityTimer -= Time.deltaTime;
+
 		Shoot();
 	}
 
@@ -79,7 +88,7 @@ public class PlayerController : MonoBehaviour
 		{
 			fireTimer = 0f;
 
-			bulletController.FireBullet(transform.position, GetMousePosition());
+			bulletController.FireBullet(transform.position, GetMousePosition() - transform.position, 10f);
 		}
 	}
 
@@ -95,5 +104,19 @@ public class PlayerController : MonoBehaviour
 		}
 
 		return Vector3.zero;
+	}
+
+	public void TakeDamage(float Damage)
+	{
+		if (currentInvicibilityTimer <= 0f)
+		{
+			Life -= Damage;
+			currentInvicibilityTimer = InvicibilityTimerAfterDamaged;
+		}
+	}
+
+	public float GetLife01()
+	{
+		return Mathf.Clamp01(Life / MaxLife);
 	}
 }

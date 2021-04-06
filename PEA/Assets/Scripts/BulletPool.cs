@@ -30,7 +30,7 @@ public class BulletPool : MonoBehaviour
 	{
 		for (int i = 0; i < poolSize; i++)
 		{
-			if (bulletPool[i].currentLifetime >= bulletLifetime)
+			if (bulletPool[i].CurrentLifetime >= bulletLifetime)
 				bulletPool[i].Deactivate();
 		}
 	}
@@ -39,7 +39,7 @@ public class BulletPool : MonoBehaviour
 	{
 		for (int i = 0; i < poolSize; i++)
 		{
-			if (!bulletPool[i].isActive)
+			if (!bulletPool[i].IsActive)
 			{
 				return bulletPool[i];
 			}
@@ -48,7 +48,7 @@ public class BulletPool : MonoBehaviour
 		return null;
 	}
 
-	public void FireBullet(Vector3 position, Vector3 dir)
+	public void FireBullet(Vector3 position, Vector3 dir, float damage)
 	{
 		dir.y = 0f;
 		
@@ -56,7 +56,8 @@ public class BulletPool : MonoBehaviour
 
 		if (bullet)
 		{
-			bullet.Activate(position, dir);
+			bullet.Activate(position, dir.normalized);
+			bullet.Damage = damage;
 		}
 	}
 }

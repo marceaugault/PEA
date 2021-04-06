@@ -6,32 +6,36 @@ public class BulletController : MonoBehaviour
 {
 	[SerializeField]
 	float speed = 5f;
+
+	public float Damage { get; set; }
 	
-	public float currentLifetime { get; private set; }
+	public float CurrentLifetime { get; private set; }
 	
-	public bool isActive { get; private set; }
+	public bool IsActive { get; private set; }
 
 	new Rigidbody rigidbody;
+
+	public LayerMask DestructionOnLayerCollision;
 
     // Start is called before the first frame update
     void Start()
     {
 		rigidbody = GetComponent<Rigidbody>();
 
-		isActive = false;
-		currentLifetime = 0;
+		IsActive = false;
+		CurrentLifetime = 0;
 	}
 
 	private void Update()
 	{
-		if (isActive)
-			currentLifetime += Time.deltaTime;
+		if (IsActive)
+			CurrentLifetime += Time.deltaTime;
 	}
 
 	public void Activate(Vector3 position, Vector3 dir)
 	{
-		isActive = true;
-		currentLifetime = 0f;
+		IsActive = true;
+		CurrentLifetime = 0f;
 
 		transform.position = position;
 		rigidbody.velocity = dir.normalized * speed;
@@ -39,9 +43,23 @@ public class BulletController : MonoBehaviour
 
 	public void Deactivate()
 	{
-		isActive = false;
+		IsActive = false;
 		transform.position = new Vector3(0f, 1000f, 0f);
 
 		rigidbody.velocity = Vector3.zero;
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (((1 << other.gameObject.layer) & DestructionOnLayerCollision) != 0)
+		{
+			Deactivate();
+		}
+
+		if (((1 << other.gameObject.layer) & LayerMask.GetMask("Enemy")) != 0)
+		{
+			other.GetComponent<EnemyController>()?.TakeDamage(Damage);
+			Deactivate();
+		}
 	}
 }
