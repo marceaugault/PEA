@@ -5,9 +5,6 @@ using UnityEngine;
 public class BulletPool : MonoBehaviour
 {
 	[SerializeField]
-	float bulletLifetime = 3f;
-
-	[SerializeField]
 	GameObject bulletPrefab = null;
 
 	public int poolSize = 30;
@@ -25,16 +22,6 @@ public class BulletPool : MonoBehaviour
 		}
     }
 
-	// Update is called once per frame
-	void Update()
-	{
-		for (int i = 0; i < poolSize; i++)
-		{
-			if (bulletPool[i].CurrentLifetime >= bulletLifetime)
-				bulletPool[i].Deactivate();
-		}
-	}
-
 	BulletController GetAvailableBullet()
 	{
 		for (int i = 0; i < poolSize; i++)
@@ -48,7 +35,7 @@ public class BulletPool : MonoBehaviour
 		return null;
 	}
 
-	public void FireBullet(Vector3 position, Vector3 dir, float damage)
+	public void FireBullet(Vector3 position, Vector3 dir, float damage, float lifetime)
 	{
 		dir.y = 0f;
 		
@@ -58,6 +45,7 @@ public class BulletPool : MonoBehaviour
 		{
 			bullet.Activate(position, dir.normalized);
 			bullet.Damage = damage;
+			bullet.Lifetime = lifetime
 		}
 	}
 }

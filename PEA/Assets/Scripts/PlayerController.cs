@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
 	new Rigidbody rigidbody = null;
 
+	CharacterStats stats = null;
+
 	#region Shoot
 	BulletPool bulletController;
 
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
 		Life = MaxLife;
 
 		rigidbody = GetComponent<Rigidbody>();
+		stats = GetComponent<CharacterStats>();
 		bulletController = FindObjectOfType<BulletPool>();
 
 		fireTimer = fireRate;
@@ -66,7 +69,7 @@ public class PlayerController : MonoBehaviour
 		if (Input.GetKey(KeyCode.D) || Input.GetKeyDown(KeyCode.D))
 			dir += new Vector3(1f, 0f, 0f);
 
-		rigidbody.AddForce(dir.normalized * speed * Time.deltaTime * 100f);
+		rigidbody.AddForce(dir.normalized * stats.GetMoveSpeed() * Time.deltaTime * 100f);
 
 		if (Input.GetButton("Fire1"))
 			allowFire = true;
@@ -84,11 +87,11 @@ public class PlayerController : MonoBehaviour
 			return;
 		}
 
-		if (fireTimer >= fireRate)
+		if (fireTimer >= stats.GetAttackSpeed())
 		{
 			fireTimer = 0f;
 
-			bulletController.FireBullet(transform.position, GetMousePosition() - transform.position, 10f);
+			bulletController.FireBullet(transform.position, GetMousePosition() - transform.position, stats.GetAttackDamage());
 		}
 	}
 

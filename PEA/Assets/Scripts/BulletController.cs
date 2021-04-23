@@ -10,6 +10,7 @@ public class BulletController : MonoBehaviour
 	public float Damage { get; set; }
 	
 	public float CurrentLifetime { get; private set; }
+	public float Lifetime { get; set; }
 	
 	public bool IsActive { get; private set; }
 
@@ -29,7 +30,14 @@ public class BulletController : MonoBehaviour
 	private void Update()
 	{
 		if (IsActive)
+		{
 			CurrentLifetime += Time.deltaTime;
+
+			if (CurrentLifetime >= Lifetime)
+			{
+				Deactivate();
+			}
+		}
 	}
 
 	public void Activate(Vector3 position, Vector3 dir)
