@@ -431,28 +431,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1864167372 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8521648399773752299, guid: 7678c94af99de75429df4297c788d51d,
-    type: 3}
-  m_PrefabInstance: {fileID: 8521648399549953467}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1864167376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1864167372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2df1c214e178f744d926ec26df0d8b07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CharBaseStats:
-    BaseDamage: 10
-    BaseAttackSpeed: 0.03
-    BaseMoveSpeed: 250
 --- !u!1001 &1916594159212832990
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -584,6 +562,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2304861137159998018, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+        type: 3}
+      propertyPath: m_Name
+      value: Life
+      objectReference: {fileID: 0}
     - target: {fileID: 4225309854440559329, guid: 2e9c7cc81a7fceb448260f0eae3216af,
         type: 3}
       propertyPath: m_Pivot.x
@@ -692,7 +675,7 @@ PrefabInstance:
     - target: {fileID: 4225309854440559338, guid: 2e9c7cc81a7fceb448260f0eae3216af,
         type: 3}
       propertyPath: m_Name
-      value: Canvas
+      value: UI
       objectReference: {fileID: 0}
     - target: {fileID: 4225309855499775212, guid: 2e9c7cc81a7fceb448260f0eae3216af,
         type: 3}

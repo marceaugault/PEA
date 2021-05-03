@@ -45,7 +45,7 @@ public class BulletPool : MonoBehaviour
 		{
 			bullet.Activate(position, dir.normalized);
 			bullet.Damage = damage;
-			bullet.Lifetime = lifetime
+			bullet.Lifetime = lifetime;
 		}
 	}
 }

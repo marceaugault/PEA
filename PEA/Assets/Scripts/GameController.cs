@@ -14,22 +14,35 @@ public class GameController : MonoBehaviour
     [SerializeField] float BlackScreenDuration = 1f;
     [SerializeField] float ScreenFadeOutSpeed = 1f;
 
+    public int MaxLevel { get; private set; }
+    public int Difficulty { get; set; }
+
+    PlayerController PlayerController = null;
+    UIController UIController = null;
+
     // Start is called before the first frame update
     void Start()
     {
-        BlackSreen.enabled = false;
-    }
+        DontDestroyOnLoad(gameObject);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        BlackSreen.enabled = false;
+
+        PlayerController = FindObjectOfType<PlayerController>();
+        UIController = FindObjectOfType<UIController>();
+
+        if (PlayerController)
+		{
+            PlayerController.UpdateStats();
+		}
     }
 
     public void SwitchRoom()
     {
         BlackSreen.color = Color.black;
         BlackSreen.enabled = true;
+
+        PlayerController.UpdateStats();
+        UIController.UpdateStats(PlayerController.stats);
 
         StartCoroutine(BlackScreenFadeOut());
     }
@@ -49,4 +62,6 @@ public class GameController : MonoBehaviour
 
         BlackSreen.enabled = false;
     }
+
+
 }

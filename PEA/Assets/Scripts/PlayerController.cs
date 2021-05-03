@@ -4,43 +4,38 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-	[SerializeField] float MaxLife = 100;
 	public float Life { get; private set; }
-
-	[SerializeField] float speed = 5f;
 
 	[SerializeField] float InvicibilityTimerAfterDamaged = 0.5f;
 	float currentInvicibilityTimer = 0f;
 
 	new Rigidbody rigidbody = null;
 
-	CharacterStats stats = null;
+	public CharacterStats stats { get; private set; }
 
 	#region Shoot
 	BulletPool bulletController;
 
-	[SerializeField]
-	float fireRate = 0.5f;
 	float fireTimer;
 
 	bool allowFire;
 
 	#endregion
 
-	// Start is called before the first frame update
 	void Start()
     {
-		Life = MaxLife;
-
 		rigidbody = GetComponent<Rigidbody>();
 		stats = GetComponent<CharacterStats>();
 		bulletController = FindObjectOfType<BulletPool>();
 
-		fireTimer = fireRate;
+		stats.ComputeStats();
+
+		fireTimer = stats.FireRate;
 		allowFire = false;
+
+		Life = stats.MaxLife;
 	}
 
-    // Update is called once per frame
     void Update()
     {
 		currentInvicibilityTimer -= Time.deltaTime;
@@ -51,6 +46,11 @@ public class PlayerController : MonoBehaviour
 	private void FixedUpdate()
 	{
 		UpdateInputs();
+	}
+
+	public void UpdateStats()
+	{
+		stats.ComputeStats();
 	}
 
 	void UpdateInputs()
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
 		if (Input.GetKey(KeyCode.D) || Input.GetKeyDown(KeyCode.D))
 			dir += new Vector3(1f, 0f, 0f);
 
-		rigidbody.AddForce(dir.normalized * stats.GetMoveSpeed() * Time.deltaTime * 100f);
+		rigidbody.AddForce(dir.normalized * stats.MoveSpeed * Time.deltaTime * 100f);
 
 		if (Input.GetButton("Fire1"))
 			allowFire = true;
@@ -87,11 +87,12 @@ public class PlayerController : MonoBehaviour
 			return;
 		}
 
-		if (fireTimer >= stats.GetAttackSpeed())
+		if (fireTimer >= stats.FireRate)
 		{
 			fireTimer = 0f;
 
-			bulletController.FireBullet(transform.position, GetMousePosition() - transform.position, stats.GetAttackDamage());
+			if (bulletController)
+				bulletController.FireBullet(transform.position, GetMousePosition() - transform.position, stats.Damage, stats.BulletLifetime);
 		}
 	}
 
@@ -120,6 +121,6 @@ public class PlayerController : MonoBehaviour
 
 	public float GetLife01()
 	{
-		return Mathf.Clamp01(Life / MaxLife);
+		return Mathf.Clamp01(Life / stats.MaxLife);
 	}
 }

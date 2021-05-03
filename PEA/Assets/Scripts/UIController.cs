@@ -9,6 +9,11 @@ public class UIController : MonoBehaviour
 
     PlayerController player;
 
+    public Text DamageText;
+    public Text AttackSpeedText;
+    public Text MoveSpeedText;
+    public Text BulletLifetimeText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,4 +30,12 @@ public class UIController : MonoBehaviour
     {
         LifeSlider.value = player.GetLife01();
     }
+
+    public void UpdateStats(CharacterStats stats)
+	{
+        DamageText.text = stats.Damage.ToString(".0");
+        AttackSpeedText.text = (1f / stats.FireRate).ToString(".0");
+        MoveSpeedText.text = (stats.MoveSpeed / 100f).ToString(".0");
+        BulletLifetimeText.text = stats.BulletLifetime.ToString(".0");
+	}
 }
