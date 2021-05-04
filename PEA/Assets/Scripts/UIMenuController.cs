@@ -8,6 +8,9 @@ public class UIMenuController : MonoBehaviour
 {
 	[SerializeField] Dropdown LevelDropdown;
 
+    [SerializeField] GameObject CharacterPanel;
+    [SerializeField] GameObject MainPanel;
+
 	[SerializeField] Button ForceBtn;
 	[SerializeField] Button DexterityBtn;
 	[SerializeField] Button AgilityBtn;
@@ -22,6 +25,11 @@ public class UIMenuController : MonoBehaviour
     [SerializeField] Text AttackSpeedText;
     [SerializeField] Text CMoveSpeedText;
     [SerializeField] Text CBulletLifeText;
+
+    [SerializeField] Text Money;
+    [SerializeField] Text UpgradeCost;
+
+    [SerializeField] Text LevelText;
 
     CharacterStats cStats = null;
     GameController gameController = null;
@@ -38,18 +46,23 @@ public class UIMenuController : MonoBehaviour
         BulletLifeBtn.onClick.AddListener(() => { AddStat(StatType.BulletLife); });
 
         LevelDropdown.ClearOptions();
-        for (int i = 0; i <= gameController.MaxLevel / 2; i += 5)
+        int i;
+        for (i = 0; i <= gameController.MaxLevel / 2; i += 5)
 		{
             LevelDropdown.options.Add(new Dropdown.OptionData() { text = i.ToString() });
         }
+        LevelDropdown.value = i;
+
+        MainPanel.SetActive(true);
+        CharacterPanel.SetActive(false);
     }
 
     public void UpdateStats(CharacterStats stats)
     {
-        DamageText.text = stats.Damage.ToString(".0");
-        AttackSpeedText.text = (1f / stats.FireRate).ToString(".0");
-        CMoveSpeedText.text = (stats.MoveSpeed / 100f).ToString(".0");
-        CBulletLifeText.text = stats.BulletLifetime.ToString(".0");
+        DamageText.text = stats.Damage.ToString("0.00");
+        AttackSpeedText.text = (1f / stats.FireRate).ToString("0.00");
+        CMoveSpeedText.text = (stats.MoveSpeed / 100f).ToString("0.00");
+        CBulletLifeText.text = stats.BulletLifetime.ToString("0.00");
 
         CharStats cstats = stats.GetBonusStats();
 
@@ -59,45 +72,54 @@ public class UIMenuController : MonoBehaviour
         BulletLifeText.text = cstats.BulletLifetime.ToString();
     }
 
+    //public void UpdateMoney()
+	//{
+    //    Money.text
+	//}
+
     public void AddStat(StatType type)
 	{
         if (cStats)
 		{
-            cStats.AddStat(type);
+            int cost = gameController.GetUpgradeCost();
+            if (cost > 0 && cost <= gameController.Money)
+			{
+                cStats.AddStat(type);
+
+                gameController.AddMoney(-cost);
+
+                Money.text = gameController.Money.ToString();
+                UpgradeCost.text = gameController.GetUpgradeCost().ToString();
+
+                LevelText.text = "Level " + cStats.Level;
+            }
 		}
 	}
 
 	public void Play()
 	{
+        gameController.Difficulty = LevelDropdown.value * 5;
         SceneManager.LoadScene("RoomScene");
-        gameController.Difficulty = LevelDropdown.value;
 	}
 
     public void OpenCharacterUpgradePanel()
 	{
+        MainPanel.SetActive(false);
+        CharacterPanel.SetActive(true);
 
+        Money.text = gameController.Money.ToString();
+        UpgradeCost.text = gameController.GetUpgradeCost().ToString();
+
+        LevelText.text = "Level " + cStats.Level;
+    }
+
+    public void Back()
+	{
+        MainPanel.SetActive(true);
+        CharacterPanel.SetActive(false);
 	}
     public void Quit()
 	{
         Application.Quit();
 	}
-	//   public void AddForce()
-	//{
-
-	//}
-
-	//   public void AddDexterity()
-	//   {
-
-	//   }
-
-	//   public void AddMoveSpeed()
-	//   {
-
-	//   }
-
-	//   public void AddBulletLife()
-	//   {
-
-	//   }
 }

@@ -353,6 +353,12 @@ LightingSettings:
   m_PVRFilteringAtrousPositionSigmaDirect: 0.5
   m_PVRFilteringAtrousPositionSigmaIndirect: 2
   m_PVRFilteringAtrousPositionSigmaAO: 1
+--- !u!1 &1487617920 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1548387051865983338, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+    type: 3}
+  m_PrefabInstance: {fileID: 4225309855241595513}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1708693390 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5497584856438228692, guid: 613a6ae80d421b54faad3f1394940167,
@@ -537,6 +543,17 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1077177664700094879, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 4f0d1b11b989881469e7c0ea5bbb0d45,
+        type: 3}
+    - target: {fileID: 1077177664700094879, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2289413076003189798, guid: 2e9c7cc81a7fceb448260f0eae3216af,
         type: 3}
       propertyPath: m_Color.a
@@ -566,6 +583,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Life
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846229518454443451, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 4f0d1b11b989881469e7c0ea5bbb0d45,
+        type: 3}
+    - target: {fileID: 3846229518454443451, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4225309854440559329, guid: 2e9c7cc81a7fceb448260f0eae3216af,
         type: 3}
@@ -677,6 +705,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 4225309854440559341, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+        type: 3}
+      propertyPath: GameOverPanel
+      value: 
+      objectReference: {fileID: 1487617920}
     - target: {fileID: 4225309855499775212, guid: 2e9c7cc81a7fceb448260f0eae3216af,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -687,6 +720,22 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4975180555779080398, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975180555779080398, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945826154375366231, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e76be5770caefde4ea3704e62b7abf1b,
+        type: 3}
     - target: {fileID: 7458184667726098972, guid: 2e9c7cc81a7fceb448260f0eae3216af,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -726,6 +775,28 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8608302871946720132, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 4f0d1b11b989881469e7c0ea5bbb0d45,
+        type: 3}
+    - target: {fileID: 8608302871946720132, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8913019861726551675, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 4f0d1b11b989881469e7c0ea5bbb0d45,
+        type: 3}
+    - target: {fileID: 8913019861726551675, guid: 2e9c7cc81a7fceb448260f0eae3216af,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e9c7cc81a7fceb448260f0eae3216af, type: 3}

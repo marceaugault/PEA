@@ -51,21 +51,23 @@ public class CharacterStats : MonoBehaviour
     private void Awake()
 	{
         LoadStats();
-    }
 
-	private void Start()
-	{
         UIController ui = FindObjectOfType<UIController>();
         if (ui)
-		{
+        {
             OnStatsChanged += ui.UpdateStats;
-		}
+        }
 
         UIMenuController menuUI = FindObjectOfType<UIMenuController>();
         if (menuUI)
         {
             OnStatsChanged += menuUI.UpdateStats;
         }
+    }
+
+	private void Start()
+	{
+
     }
 	private void OnDestroy()
 	{
@@ -113,7 +115,9 @@ public class CharacterStats : MonoBehaviour
 
     float GetAttackSpeed()
     {
-        return CharBaseStats.BaseFireRate - CharBonusStats.Dexterity;
+        float fireRate = (Mathf.Pow(CharBonusStats.Dexterity, 0.5f) * 0.25f) / CharBaseStats.BaseFireRate;
+        Debug.Log(fireRate);
+        return CharBaseStats.BaseFireRate - Mathf.Clamp(fireRate, 0f, CharBaseStats.BaseFireRate - 0.0001f);
     }
 
     float GetBulletLifetime()
@@ -131,29 +135,17 @@ public class CharacterStats : MonoBehaviour
     #region SaveLoad
     public void SaveStats()
     {
-        //PlayerPrefs.SetString("Character Base Stats", JsonUtility.ToJson(CharBaseStats));
         PlayerPrefs.SetString("CharacterBonusStats", JsonUtility.ToJson(CharBonusStats));
         PlayerPrefs.SetInt("Level", Level);
     }
 
     public void LoadStats()
     {
-        //if (PlayerPrefs.HasKey("Character Base Stats"))
-        //{
-        //    CharBaseStats = JsonUtility.FromJson<BaseStats>(PlayerPrefs.GetString("Character Base Stats"));
-        //}
-        //else
-        //{
-        //    CharBaseStats = new BaseStats();
-        //
-        //}
-
         Debug.Log("Loadind save");
 
         if (PlayerPrefs.HasKey("CharacterBonusStats"))
 		{
             CharBonusStats = JsonUtility.FromJson<CharStats>(PlayerPrefs.GetString("CharacterBonusStats"));
-            Debug.Log("Found stats");
 		}
         else
 		{

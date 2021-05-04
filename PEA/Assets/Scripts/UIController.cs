@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -14,6 +13,11 @@ public class UIController : MonoBehaviour
     public Text MoveSpeedText;
     public Text BulletLifetimeText;
 
+    public Text MoneyText;
+    public Text DifficultyText;
+
+    public GameObject GameOverPanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +27,8 @@ public class UIController : MonoBehaviour
         {
             Debug.LogError("UIController: Player not found");
         }
+
+        GameOverPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -33,9 +39,33 @@ public class UIController : MonoBehaviour
 
     public void UpdateStats(CharacterStats stats)
 	{
-        DamageText.text = stats.Damage.ToString(".0");
-        AttackSpeedText.text = (1f / stats.FireRate).ToString(".0");
-        MoveSpeedText.text = (stats.MoveSpeed / 100f).ToString(".0");
-        BulletLifetimeText.text = stats.BulletLifetime.ToString(".0");
+        DamageText.text = stats.Damage.ToString("0.00");
+        AttackSpeedText.text = (1f / stats.FireRate).ToString("0.00");
+        MoveSpeedText.text = (stats.MoveSpeed / 100f).ToString("0.00");
+        BulletLifetimeText.text = stats.BulletLifetime.ToString("0.00");
+	}
+
+    public void GameOver()
+	{
+        GameOverPanel.SetActive(true);
+	}
+    public void UpdateMoney(int money)
+	{
+        MoneyText.text = money.ToString();
+    }
+
+    public void UpdateDifficulty(int difficulty)
+	{
+        DifficultyText.text = "Level " + difficulty.ToString();
+	}
+
+    public void ToMainMenu()
+	{
+        SceneManager.LoadScene("Menu");
+	}
+
+    public void Quit()
+	{
+        Application.Quit();
 	}
 }

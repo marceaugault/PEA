@@ -173,6 +173,6 @@ MonoBehaviour:
   CharBaseStats:
     BaseMaxLife: 100
     BaseDamage: 10
-    BaseFireRate: 0.1
+    BaseFireRate: 2
     BaseMoveSpeed: 250
     BaseBulletLifetime: 2

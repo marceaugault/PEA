@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
 	new Rigidbody rigidbody = null;
 
+	public bool IsDead { get { return Life <= 0f; } }
 	public CharacterStats stats { get; private set; }
 
 	#region Shoot
@@ -22,12 +23,14 @@ public class PlayerController : MonoBehaviour
 
 	#endregion
 
-	void Start()
-    {
+	private void Awake()
+	{
 		rigidbody = GetComponent<Rigidbody>();
 		stats = GetComponent<CharacterStats>();
 		bulletController = FindObjectOfType<BulletPool>();
-
+	}
+	void Start()
+    {
 		stats.ComputeStats();
 
 		fireTimer = stats.FireRate;
@@ -50,11 +53,20 @@ public class PlayerController : MonoBehaviour
 
 	public void UpdateStats()
 	{
-		stats.ComputeStats();
+		if (!stats)
+		{
+			stats = GetComponent<CharacterStats>();
+		}
+		
+		if (stats)
+			stats.ComputeStats();
 	}
 
 	void UpdateInputs()
 	{
+		if (IsDead)
+			return;
+
 		Vector3 dir = Vector3.zero;
 
 		if (Input.GetKey(KeyCode.Z) || Input.GetKeyDown(KeyCode.Z))
@@ -80,6 +92,9 @@ public class PlayerController : MonoBehaviour
 
 	void Shoot()
 	{
+		if (IsDead)
+			return;
+
 		fireTimer += Time.deltaTime;
 
 		if (!allowFire)
@@ -116,6 +131,12 @@ public class PlayerController : MonoBehaviour
 		{
 			Life -= Damage;
 			currentInvicibilityTimer = InvicibilityTimerAfterDamaged;
+
+			if (IsDead)
+			{
+				UIController ui = FindObjectOfType<UIController>();
+				ui.GameOver();
+			}
 		}
 	}
 

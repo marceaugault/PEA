@@ -25,21 +25,18 @@ public class RoomController : MonoBehaviour
 
     GameController GameController = null;
     PlayerController Player = null;
-
     public RoomRewardType RoomRewardType { get; private set; }
-
-    public static int Difficulty = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        Reset();
-
         LeftDoor.SetRewardForNextRoom((RoomRewardType)Random.Range(0, (int)RoomRewardType.CountType));
         RightDoor.SetRewardForNextRoom((RoomRewardType)Random.Range(0, (int)RoomRewardType.CountType));
 
         Player = FindObjectOfType<PlayerController>();
         GameController = FindObjectOfType<GameController>();
+
+        Reset();
     }
 
 
@@ -71,6 +68,7 @@ public class RoomController : MonoBehaviour
             GameObject go = Instantiate(EnemiesPrefabs[enemyType], position, Quaternion.identity);
             EnemyController enemy = go.GetComponent<EnemyController>();
             enemy.EnemyKilledDelegate += EnemyKilled;
+            enemy.Init(GameController.Difficulty);
         }
     }
 
@@ -78,19 +76,23 @@ public class RoomController : MonoBehaviour
     public void EnemyKilled()
     {
         NbEnemiesInRoom--;
-        Debug.Log("Enemy killed, remaining: " + NbEnemiesInRoom);
 
         if (NbEnemiesInRoom <= 0)
         {
-            Debug.Log("Doors Enabled");
-
-            SpawnReward(RoomRewardType);
-
-            LeftDoor.EnableDoor();
-            RightDoor.EnableDoor();
-
-            Difficulty++;
+            RoomCleared();
         }
+    }
+
+    void RoomCleared()
+	{
+        Debug.Log("Room Cleared");
+
+        GameController.AddMoney((int)Mathf.Pow(GameController.Difficulty, 1.2f));
+
+        SpawnReward(RoomRewardType);
+
+        LeftDoor.EnableDoor();
+        RightDoor.EnableDoor();
     }
 
 

@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] float Life = 50f;
+    [SerializeField] float BaseLife = 50f;
 
-    [SerializeField] float Speed = 10f;
+    [SerializeField] float BaseSpeed = 10f;
     
-    [SerializeField] float MeleeDamage = 10f;
+    [SerializeField] float BaseMeleeDamage = 10f;
+
+    float Life = 1f;
+    float Speed = 1f;
+    float MeleeDamage = 1f;
 
     List<Vector3> Waypoints;
     int NextWaypoint;
@@ -28,7 +32,12 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    public void Init(int difficulty)
+	{
+        Life = BaseLife + Mathf.Pow(difficulty, 1.2f);
+        Speed = BaseSpeed + Mathf.Pow(difficulty, 0.5f);
+        MeleeDamage = BaseMeleeDamage + Mathf.Pow(difficulty, 0.6f);
+    }
     void FixedUpdate()
     {
         MoveToWaypoint(Waypoints[NextWaypoint]);
@@ -42,7 +51,6 @@ public class EnemyController : MonoBehaviour
         {
             GetNextWaypoint();
         }
-
     }
 
     void GetNextWaypoint()
