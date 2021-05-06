@@ -17,8 +17,10 @@ public class EnemyController : MonoBehaviour
     List<Vector3> Waypoints;
     int NextWaypoint;
 
-    public delegate void OnEnemyKilled();
+    public delegate void OnEnemyKilled(Vector3 pos, LootTable table);
     public OnEnemyKilled EnemyKilledDelegate;
+
+    [SerializeField] LootTable LootTable;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +32,8 @@ public class EnemyController : MonoBehaviour
         {
             Waypoints.Add(new Vector3(Random.Range(-24f, 24f), transform.position.y, Random.Range(-14f, 14f)));
         }
+
+        LootTable.Init();
     }
 
     public void Init(int difficulty)
@@ -73,7 +77,7 @@ public class EnemyController : MonoBehaviour
         {
             Debug.Log("Enemy Killed");
 
-            EnemyKilledDelegate();
+            EnemyKilledDelegate(transform.position, LootTable);
             Destroy(gameObject);
         }
     }

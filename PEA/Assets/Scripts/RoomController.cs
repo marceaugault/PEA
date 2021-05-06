@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +24,10 @@ public class RoomController : MonoBehaviour
 
     GameController GameController = null;
     PlayerController Player = null;
+
+    List<RewardController> Rewards;
+
+    UIController UIController;
     public RoomRewardType RoomRewardType { get; private set; }
 
     // Start is called before the first frame update
@@ -35,6 +38,17 @@ public class RoomController : MonoBehaviour
 
         Player = FindObjectOfType<PlayerController>();
         GameController = FindObjectOfType<GameController>();
+        UIController = FindObjectOfType<UIController>();
+
+        Rewards = new List<RewardController>();
+
+        for (int i = 0; i < 10; i++)
+		{
+            GameObject go = Instantiate(RewardPrefab, new Vector3(500f, 500f, 0f), Quaternion.Euler(60f, 0f, 0f));
+            RewardController rc = go.GetComponent<RewardController>();
+            Rewards.Add(rc);
+            rc.Init();
+        }
 
         Reset();
     }
@@ -46,8 +60,12 @@ public class RoomController : MonoBehaviour
         RightDoor.DisableDoor();
 
         SpawnEnemies();
-    }
 
+        foreach (RewardController rc in Rewards)
+		{
+            rc.Enable(false);
+		}
+    }
 
     void SpawnEnemies()
     {
@@ -73,9 +91,26 @@ public class RoomController : MonoBehaviour
     }
 
 
-    public void EnemyKilled()
+    public void EnemyKilled(Vector3 pos, LootTable table)
     {
         NbEnemiesInRoom--;
+
+        RewardType type = table.GenerateReward();
+
+        if (type != RewardType.None)
+		{
+            int multiplier = 1;
+
+            switch  (type)
+			{
+                case RewardType.Money1x:    multiplier = 1; break;
+                case RewardType.Money5x:    multiplier = 5; break;
+                case RewardType.Money10x:   multiplier = 10; break;
+                case RewardType.Money50x:   multiplier = 50; break;
+            }
+
+            SpawnReward(type, pos, multiplier * GetMoneyAmount());
+		}
 
         if (NbEnemiesInRoom <= 0)
         {
@@ -87,12 +122,12 @@ public class RoomController : MonoBehaviour
 	{
         Debug.Log("Room Cleared");
 
-        GameController.AddMoney((int)Mathf.Pow(GameController.Difficulty, 1.2f));
-
-        SpawnReward(RoomRewardType);
+        SpawnReward(RewardType.Money1x, new Vector3(0f, 2f, 0f), GetMoneyAmount());
 
         LeftDoor.EnableDoor();
         RightDoor.EnableDoor();
+
+        UIController.OnRoomCleared();
     }
 
 
@@ -110,24 +145,33 @@ public class RoomController : MonoBehaviour
         Player.transform.position = newPlayerPosition;
     }
 
-    public void SpawnReward(RoomRewardType rewardType)
+    public void SpawnReward(RewardType rewardType, Vector3 pos, int moneyAmount)
     {
-        GameObject go = Instantiate(RewardPrefab, new Vector3(0f, 2f, 0f), Quaternion.Euler(60f, 0f, 0f));
+        int i = GetFreeRewardIndex();
+        Debug.Log("pos 1: " + pos);
 
-        go.GetComponent<Rigidbody>()?.AddForce(Vector3.up * RewardSpawnForce);
-        SpriteRenderer sprite = go.GetComponent<SpriteRenderer>();
-
-        switch (rewardType)
-        {
-            case RoomRewardType.Money:
-                sprite.sprite = Resources.Load<Sprite>("Sprites/money-reward-icon");
-                break;
-            case RoomRewardType.SpecialMoney:
-                sprite.sprite = Resources.Load<Sprite>("Sprites/special-money-reward-icon");
-                break;
-            case RoomRewardType.Gear:
-                sprite.sprite = Resources.Load<Sprite>("Sprites/gear-reward-icon");
-                break;
+        if (i != -1)
+		{
+            Rewards[i].SpawnReward(rewardType, pos, RewardSpawnForce);
+            Rewards[i].Money = moneyAmount;
         }
+    }
+
+    int GetFreeRewardIndex()
+	{
+        for (int i = 0; i < Rewards.Count; i++)
+		{
+            if (!Rewards[i].IsActive)
+			{
+                return i;
+			}
+		}
+
+        return -1;
+	}
+
+    int GetMoneyAmount()
+	{
+        return (int)Mathf.Pow(GameController.Difficulty, 1.2f);
     }
 }

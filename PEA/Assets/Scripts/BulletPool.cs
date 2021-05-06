@@ -17,7 +17,7 @@ public class BulletPool : MonoBehaviour
 		bulletPool = new BulletController[poolSize];
         for (int i = 0; i < poolSize; i++)
 		{
-			var go = Instantiate(bulletPrefab, new Vector3(0f, 100f, 0f), Quaternion.identity);
+			var go = Instantiate(bulletPrefab, new Vector3(500f, 500f, 0f), Quaternion.identity);
 			bulletPool[i] = go.GetComponent<BulletController>();
 		}
     }

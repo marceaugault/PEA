@@ -52,7 +52,7 @@ public class BulletController : MonoBehaviour
 	public void Deactivate()
 	{
 		IsActive = false;
-		transform.position = new Vector3(0f, 1000f, 0f);
+		transform.position = new Vector3(500f, 500f, 0f);
 
 		rigidbody.velocity = Vector3.zero;
 	}

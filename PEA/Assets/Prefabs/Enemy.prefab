@@ -109,6 +109,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e3bf814be7684c48a05057ccfc17239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Life: 50
-  Speed: 10
-  MeleeDamage: 10
+  BaseLife: 50
+  BaseSpeed: 10
+  BaseMeleeDamage: 10
+  LootTable:
+    Table:
+    - Type: 4
+      Weight: 50
+    - Type: 0
+      Weight: 30
+    - Type: 1
+      Weight: 14
+    - Type: 2
+      Weight: 5
+    - Type: 3
+      Weight: 1

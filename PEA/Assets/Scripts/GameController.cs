@@ -109,6 +109,11 @@ public class GameController : MonoBehaviour
         Money += money;
 
 		OnMoneyChanged?.Invoke(Money);
+
+        if (UIController)
+		{
+            UIController.OnMoneyPickup(money);
+		}
 	}
 
     public int GetUpgradeCost()

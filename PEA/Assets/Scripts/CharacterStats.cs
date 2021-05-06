@@ -116,7 +116,7 @@ public class CharacterStats : MonoBehaviour
     float GetAttackSpeed()
     {
         float fireRate = (Mathf.Pow(CharBonusStats.Dexterity, 0.5f) * 0.25f) / CharBaseStats.BaseFireRate;
-        Debug.Log(fireRate);
+
         return CharBaseStats.BaseFireRate - Mathf.Clamp(fireRate, 0f, CharBaseStats.BaseFireRate - 0.0001f);
     }
 
