@@ -148,7 +148,6 @@ public class RoomController : MonoBehaviour
     public void SpawnReward(RewardType rewardType, Vector3 pos, int moneyAmount)
     {
         int i = GetFreeRewardIndex();
-        Debug.Log("pos 1: " + pos);
 
         if (i != -1)
 		{

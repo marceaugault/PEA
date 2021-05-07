@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BaseLife: 50
-  BaseSpeed: 10
+  BaseSpeed: 6
   BaseMeleeDamage: 10
   LootTable:
     Table:
