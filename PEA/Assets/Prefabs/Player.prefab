@@ -176,3 +176,8 @@ MonoBehaviour:
     BaseFireRate: 2
     BaseMoveSpeed: 250
     BaseBulletLifetime: 2
+  ForceMultiplier: 0.8
+  DexterityMultiplier: 0.5
+  VitalityMultiplier: 0.9
+  AgilityMultiplier: 0.9
+  BulletLifeMultiplier: 0.3

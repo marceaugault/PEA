@@ -85,8 +85,17 @@ public class RoomController : MonoBehaviour
 
             GameObject go = Instantiate(EnemiesPrefabs[enemyType], position, Quaternion.identity);
             EnemyController enemy = go.GetComponent<EnemyController>();
-            enemy.EnemyKilledDelegate += EnemyKilled;
-            enemy.Init(GameController.Difficulty);
+            if (enemy)
+            {
+                enemy.EnemyKilledDelegate += EnemyKilled;
+                enemy.Init(GameController.Difficulty);
+            }
+			else
+			{
+                EnemyFollowPlayer e = go.GetComponent<EnemyFollowPlayer>();
+                e.EnemyKilledDelegate += EnemyKilled;
+                e.Init(GameController.Difficulty);
+            }
         }
     }
 

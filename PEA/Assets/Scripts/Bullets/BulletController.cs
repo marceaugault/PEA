@@ -67,6 +67,7 @@ public class BulletController : MonoBehaviour
 		if (((1 << other.gameObject.layer) & LayerMask.GetMask("Enemy")) != 0)
 		{
 			other.GetComponent<EnemyController>()?.TakeDamage(Damage);
+			other.GetComponent<EnemyFollowPlayer>()?.TakeDamage(Damage);
 			Deactivate();
 		}
 	}

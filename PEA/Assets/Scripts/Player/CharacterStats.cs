@@ -8,6 +8,7 @@ public enum StatType
     Force,
     Dexterity,
     Agility,
+    Vitality,
     BulletLife,
 }
 
@@ -36,6 +37,11 @@ public class CharacterStats : MonoBehaviour
     [SerializeField] BaseStats CharBaseStats;
     CharStats CharBonusStats;
 
+    [SerializeField] float ForceMultiplier = 0.8f;
+    [SerializeField] float DexterityMultiplier = 0.5f;
+    [SerializeField] float VitalityMultiplier = 0.7f;
+    [SerializeField] float AgilityMultiplier = 0.5f;
+    [SerializeField] float BulletLifeMultiplier = 0.5f;
     public int Level { get; private set; }
     public float MaxLife { get; private set; }
     public float Damage { get; private set; }
@@ -84,6 +90,7 @@ public class CharacterStats : MonoBehaviour
             case StatType.Agility: CharBonusStats.Agility++; break;
             case StatType.Dexterity: CharBonusStats.Dexterity++; break;
             case StatType.BulletLife: CharBonusStats.BulletLifetime++; break;
+            case StatType.Vitality: CharBonusStats.Vitality++; break;
 		}
 
         Level++;
@@ -101,28 +108,28 @@ public class CharacterStats : MonoBehaviour
     }
     float GetMaxLife()
     {
-        return CharBaseStats.BaseMaxLife + CharBonusStats.Vitality;
+        return CharBaseStats.BaseMaxLife + Mathf.Pow(CharBonusStats.Vitality, VitalityMultiplier);
     }
     float GetAttackDamage()
     {
-        return CharBaseStats.BaseDamage + CharBonusStats.Force;
+        return CharBaseStats.BaseDamage + Mathf.Pow(CharBonusStats.Force, ForceMultiplier);
     }
 
     float GetMoveSpeed()
     {
-        return CharBaseStats.BaseMoveSpeed + CharBonusStats.Agility;
+        return CharBaseStats.BaseMoveSpeed + Mathf.Pow(CharBonusStats.Agility, AgilityMultiplier);
     }
 
     float GetAttackSpeed()
     {
-        float fireRate = (Mathf.Pow(CharBonusStats.Dexterity, 0.5f) * 0.25f) / CharBaseStats.BaseFireRate;
+        float fireRate = (Mathf.Pow(CharBonusStats.Dexterity, DexterityMultiplier) * 0.25f) / CharBaseStats.BaseFireRate;
 
         return CharBaseStats.BaseFireRate - Mathf.Clamp(fireRate, 0f, CharBaseStats.BaseFireRate - 0.0001f);
     }
 
     float GetBulletLifetime()
     {
-        return CharBaseStats.BaseBulletLifetime + CharBonusStats.BulletLifetime;
+        return CharBaseStats.BaseBulletLifetime + Mathf.Pow(CharBonusStats.BulletLifetime, BulletLifeMultiplier);
     }
 
     public CharStats GetBonusStats()

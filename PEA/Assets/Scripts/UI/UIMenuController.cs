@@ -11,16 +11,19 @@ public class UIMenuController : MonoBehaviour
     [SerializeField] GameObject CharacterPanel;
     [SerializeField] GameObject MainPanel;
 
+	[SerializeField] Button VitalityBtn;
 	[SerializeField] Button ForceBtn;
 	[SerializeField] Button DexterityBtn;
 	[SerializeField] Button AgilityBtn;
 	[SerializeField] Button BulletLifeBtn;
 
+	[SerializeField] Text VitalityText;
 	[SerializeField] Text ForceText;
     [SerializeField] Text DexterityText;
     [SerializeField] Text AgilityText;
     [SerializeField] Text BulletLifeText;
 
+    [SerializeField] Text LifeText;
     [SerializeField] Text DamageText;
     [SerializeField] Text AttackSpeedText;
     [SerializeField] Text CMoveSpeedText;
@@ -40,6 +43,7 @@ public class UIMenuController : MonoBehaviour
         cStats = FindObjectOfType<CharacterStats>();
         gameController = FindObjectOfType<GameController>();
 
+        VitalityBtn.onClick.AddListener(() => { AddStat(StatType.Vitality); });
         ForceBtn.onClick.AddListener(() => { AddStat(StatType.Force); });
         DexterityBtn.onClick.AddListener(() => { AddStat(StatType.Dexterity); });
         AgilityBtn.onClick.AddListener(() => { AddStat(StatType.Agility); });
@@ -59,6 +63,7 @@ public class UIMenuController : MonoBehaviour
 
     public void UpdateStats(CharacterStats stats)
     {
+        LifeText.text = stats.MaxLife.ToString("0.00");
         DamageText.text = stats.Damage.ToString("0.00");
         AttackSpeedText.text = (1f / stats.FireRate).ToString("0.00");
         CMoveSpeedText.text = (stats.MoveSpeed / 100f).ToString("0.00");
@@ -66,17 +71,12 @@ public class UIMenuController : MonoBehaviour
 
         CharStats cstats = stats.GetBonusStats();
 
+        VitalityText.text = cstats.Vitality.ToString();
         ForceText.text = cstats.Force.ToString();
         DexterityText.text = cstats.Dexterity.ToString();
         AgilityText.text = cstats.Agility.ToString();
         BulletLifeText.text = cstats.BulletLifetime.ToString();
     }
-
-    //public void UpdateMoney()
-	//{
-    //    Money.text
-	//}
-
     public void AddStat(StatType type)
 	{
         if (cStats)
