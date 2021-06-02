@@ -180,6 +180,6 @@ public class RoomController : MonoBehaviour
 
     int GetMoneyAmount()
 	{
-        return (int)Mathf.Pow(GameController.Difficulty, 1.2f);
+        return (int)(1f + Mathf.Pow(GameController.Difficulty, 1.2f));
     }
 }

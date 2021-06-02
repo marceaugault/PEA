@@ -172,8 +172,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharBaseStats:
     BaseMaxLife: 100
-    BaseDamage: 10
-    BaseFireRate: 2
+    BaseDamage: 20
+    BaseFireRate: 1
     BaseMoveSpeed: 250
     BaseBulletLifetime: 2
   ForceMultiplier: 0.8

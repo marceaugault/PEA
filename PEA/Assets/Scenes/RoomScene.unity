@@ -1177,14 +1177,13 @@ PrefabInstance:
     - target: {fileID: 5590713887642244701, guid: 613a6ae80d421b54faad3f1394940167,
         type: 3}
       propertyPath: EnemiesPrefabs.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5590713887642244701, guid: 613a6ae80d421b54faad3f1394940167,
         type: 3}
       propertyPath: EnemiesPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 7094836180447134502, guid: 2c7192e61be7f244493e35e6769aec89,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 5767907104442464875, guid: 613a6ae80d421b54faad3f1394940167,
         type: 3}
       propertyPath: RewardImage
